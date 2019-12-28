@@ -4,6 +4,7 @@ import sys
 import os
 import hashlib  
 from pathlib import Path
+import random
 
 def hashfile(path, blocksize = 65536):
     streamFile = open(path, 'rb')
@@ -15,8 +16,8 @@ def hashfile(path, blocksize = 65536):
     streamFile.close()
     return hasher.hexdigest()
 
-def findDuplicateDictValues(dictionary):
-    for key, value in dictionary.items():
+def findDuplicateDictValues(dictionary): 
+    for key, value in dictionary.items():  
         for key2, value2 in dictionary.items():
             if key != key2 and value == value2:
                 print("\nDuplicate files:")
@@ -27,11 +28,15 @@ def findDuplicateDictValues(dictionary):
                 print("3: Cancel\n")
                 option = input()
                 if(option == '1'):
+                     dictionary[key] = str(random.randint(1,100000))
                      os.remove(key)
                 elif(option == '2'):
+                     dictionary[key2] = str(random.randint(1,100000))
                      os.remove(key2)
                 else:
-                    continue
+                    break
+                return findDuplicateDictValues(dictionary)
+
 
 folder = "./"
 if(len(sys.argv) > 1):
